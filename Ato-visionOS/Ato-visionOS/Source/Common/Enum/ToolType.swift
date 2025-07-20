@@ -12,8 +12,13 @@ enum ToolGroup {
 }
 
 enum ToolType: CaseIterable, Equatable {
-    case move, magnify, bond, dissociate, erase
-    case undo, redo
+    case move // 이동
+    case magnify // 돋보기(확대)
+    case bond // 원자 결합
+    case dissociate // 분자 분해
+    case erase // 지우개
+    case undo // 되돌리기
+    case redo // 되돌리기 취소
     
     var group: ToolGroup {
         switch self {
