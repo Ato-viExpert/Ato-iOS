@@ -16,10 +16,10 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2D4BC4CB2E264DDD00BB30F0 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */ = {
+		90B96A382E2CDF7D0025E885 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resource/Info.plist,
 			);
 			target = 2D4BC4B62E264DDC00BB30F0 /* Ato-visionOS */;
 		};
@@ -29,7 +29,7 @@
 		2D4BC4B92E264DDC00BB30F0 /* Ato-visionOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				2D4BC4CB2E264DDD00BB30F0 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */,
+				90B96A382E2CDF7D0025E885 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */,
 			);
 			path = "Ato-visionOS";
 			sourceTree = "<group>";
@@ -123,6 +123,9 @@
 			);
 			mainGroup = 2D4BC4AE2E264DDC00BB30F0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				90B96A352E2CDF590025E885 /* XCLocalSwiftPackageReference "Packages/RealityKitContent" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2D4BC4B82E264DDC00BB30F0 /* Products */;
 			projectDirPath = "";
@@ -166,7 +169,7 @@
 				"DEVELOPMENT_TEAM[sdk=xros*]" = 3BFLHJ2HKG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_FILE = "$(TARGET_NAME)/Resource/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -196,7 +199,7 @@
 				"DEVELOPMENT_TEAM[sdk=xros*]" = 3BFLHJ2HKG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_FILE = "$(TARGET_NAME)/Resource/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -357,6 +360,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		90B96A352E2CDF590025E885 /* XCLocalSwiftPackageReference "Packages/RealityKitContent" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/RealityKitContent;
+		};
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		2D4BC4BC2E264DDC00BB30F0 /* RealityKitContent */ = {
