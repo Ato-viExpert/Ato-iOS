@@ -21,6 +21,7 @@ struct ImmersiveView: View {
                 // https://developer.apple.com/
             }
         }
+        .transition(.opacity.animation(.easeInOut(duration: 0.5)))
     }
 }
 

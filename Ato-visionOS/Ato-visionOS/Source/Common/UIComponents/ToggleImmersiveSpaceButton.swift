@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct ToggleImmersiveSpaceButton: View {
-
     @Environment(AppModel.self) private var appModel
-
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
 
@@ -19,14 +17,18 @@ struct ToggleImmersiveSpaceButton: View {
             Task { @MainActor in
                 switch appModel.immersiveSpaceState {
                     case .open:
-                        appModel.immersiveSpaceState = .inTransition
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            appModel.immersiveSpaceState = .inTransition
+                        }
                         await dismissImmersiveSpace()
                         // Don't set immersiveSpaceState to .closed because there
                         // are multiple paths to ImmersiveView.onDisappear().
                         // Only set .closed in ImmersiveView.onDisappear().
 
                     case .closed:
-                        appModel.immersiveSpaceState = .inTransition
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            appModel.immersiveSpaceState = .inTransition
+                        }
                         switch await openImmersiveSpace(id: appModel.immersiveSpaceID) {
                             case .opened:
                                 // Don't set immersiveSpaceState to .open because there
@@ -52,7 +54,8 @@ struct ToggleImmersiveSpaceButton: View {
             Text(appModel.immersiveSpaceState == .open ? "Hide Immersive Space" : "Show Immersive Space")
         }
         .disabled(appModel.immersiveSpaceState == .inTransition)
-        .animation(.none, value: 0)
+        .transition(.scale.combined(with: .opacity))
+        .animation(.easeInOut(duration: 0.5), value: appModel.immersiveSpaceState)
         .fontWeight(.semibold)
     }
 }
