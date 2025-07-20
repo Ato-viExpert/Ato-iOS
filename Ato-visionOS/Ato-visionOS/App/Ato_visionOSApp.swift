@@ -19,6 +19,12 @@ struct Ato_visionOSApp: App {
                }
                .windowStyle(.plain)
 
+        WindowGroup {
+            SplitPeriodicView()
+        }
+        .windowResizability(.contentSize)
+        .defaultSize(width: 1500, height: 1000)
+
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
                 .environment(appModel)
