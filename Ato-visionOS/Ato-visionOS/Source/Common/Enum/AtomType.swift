@@ -163,6 +163,7 @@ enum AtomType: String, CaseIterable {
     }
     
     /// diffuse Color
+    /// 원자 기본 색상
     var diffuseColor: UIColor {
         switch self {
         case .H: return UIColor(hex: "#6DC0FF")
@@ -192,6 +193,7 @@ enum AtomType: String, CaseIterable {
     }
     
     /// emissive Color
+    /// 원자 발광 색상
     var emissiveColor: UIColor {
         switch self {
         case .H: return UIColor(hex: "#0072FF")
