@@ -9,32 +9,24 @@ import SwiftUI
 
 @main
 struct Ato_visionOSApp: App {
-
+    
     @State private var appModel = AppModel()
-
+    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    
     var body: some Scene {
         WindowGroup {
-                   ContentView()
+            ContentView()
                 .environment(appModel)
-               }
-               .windowStyle(.plain)
-
-        WindowGroup {
-            SplitPeriodicView()
+                .task {
+                    await openImmersiveSpace(id: appModel.immersiveSpaceID)
+                }
         }
-        .windowResizability(.contentSize)
-        .defaultSize(width: 1500, height: 1000)
+        .windowStyle(.plain)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
                 .environment(appModel)
-                .onAppear {
-                    appModel.immersiveSpaceState = .open
-                }
-                .onDisappear {
-                    appModel.immersiveSpaceState = .closed
-                }
         }
-        .immersionStyle(selection: .constant(.full), in: .full)
+        .immersionStyle(selection: .constant(.mixed), in: .mixed)
     }
 }
