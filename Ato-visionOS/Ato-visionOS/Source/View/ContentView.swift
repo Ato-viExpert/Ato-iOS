@@ -14,15 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            // TODO: - 주기율표 뷰로 대체
-            VStack {
-                Model3D(named: "Scene", bundle: realityKitContentBundle)
-                    .padding(.bottom, 50)
-                
-                Text("Hello, world!")
-                
-                ToggleImmersiveSpaceButton()
-            }
+            SplitPeriodicView()
             .padding()
             .frame(maxWidth: .infinity)
             .frame(maxHeight: .infinity)

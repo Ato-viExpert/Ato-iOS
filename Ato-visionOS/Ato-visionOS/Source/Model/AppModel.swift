@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealityKit
 
 /// Maintains app-wide state
 @MainActor
@@ -19,4 +20,6 @@ class AppModel {
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
     var selectedTool: ToolType = .move
+    let commandManager = CommandManager()
+    var realityContent: RealityViewContent? = nil
 }
