@@ -37,23 +37,22 @@ struct AtomOrbit: View {
             ForEach(0..<electronsPerOrbit.count, id: \.self) { orbitIndex in
                 let orbitRadius = size * (1 + Double(orbitIndex) * 0.5)
                 let electronCount = electronsPerOrbit[orbitIndex]
+                // MARK: - 궤도 그리기
+                Circle()
+                    .strokeBorder(.white, lineWidth: 1.5)
+                    .frame(width: orbitRadius, height: orbitRadius)
                 
-                ZStack {
-                    Circle()
-                        .strokeBorder(.white, lineWidth: 1.5)
-                        .frame(width: orbitRadius, height: orbitRadius)
+                // MARK: - 전자 배치
+                ForEach(0..<electronCount, id: \.self) { electronIndex in
+                    let angle = (360.0 / Double(electronCount)) * Double(electronIndex)
+                    let radians = angle * .pi / 180.0
                     
-                    // MARK: - 전자 배치
-                    ForEach(0..<electronCount, id: \.self) { electronIndex in
-                        let angle = (360.0 / Double(electronCount)) * Double(electronIndex)
-                        let radians = angle * .pi / 180.0
-                        
-                        let x = cos(radians) * (orbitRadius / 2)
-                        let y = sin(radians) * (orbitRadius / 2)
-                        
-                        Electron()
-                            .offset(x: x, y: y)
-                    }
+                    let x = cos(radians) * (orbitRadius / 2)
+                    let y = sin(radians) * (orbitRadius / 2)
+                    
+                    Electron()
+                        .offset(x: x, y: y)
+                    
                 }
             }
         }
