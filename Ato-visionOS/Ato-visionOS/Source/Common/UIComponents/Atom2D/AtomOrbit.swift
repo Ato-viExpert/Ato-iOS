@@ -4,7 +4,7 @@ import SwiftUI
 
 /// 전자를 표시하는 뷰
 
-struct Electron: View {
+fileprivate struct Electron: View {
     // MARK: - Body
     var body: some View {
         Circle()
