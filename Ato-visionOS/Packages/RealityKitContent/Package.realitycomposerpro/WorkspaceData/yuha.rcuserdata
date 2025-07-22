@@ -1,7 +1,7 @@
 {
   "advancedEditorSelectedIdentifier" : "ProjectBrowser",
   "openSceneRelativePaths" : [
-    "링링링.usdc"
+    "Materials\/GridMaterial.usda"
   ],
   "recentIdentifiers" : {
     "02CC089A-191E-4D30-9FB0-B06F6BCCE81F" : [
@@ -3275,6 +3275,5 @@
   },
   "sceneViewportBackgroundColors" : {
 
-  },
-  "selectedSceneRelativePath" : "링링링.usdc"
+  }
 }
