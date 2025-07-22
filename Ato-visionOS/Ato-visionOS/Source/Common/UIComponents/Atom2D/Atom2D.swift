@@ -7,15 +7,21 @@ import SwiftUI
 struct Atom2D: View {
     // MARK: - Properties
 
+    // MARK: - Properties
+
+    private let atomType: AtomType
+    private let size: CGFloat
+    private var atomColor: Color {
+        Color(uiColor: atomType.diffuseColor)
+    }
+    
+    /// Atom2D
     /// - Parameters:
     ///   - atomType: 원자 종류
     ///   - size: 전반적 크기
-    ///   - atomColor: 원자 핵 색상
-    let atomType: AtomType
-    let size: CGFloat
-    
-    private var atomColor: Color {
-        Color(uiColor: atomType.diffuseColor)
+    init(atomType: AtomType, size: CGFloat) {
+        self.atomType = atomType
+        self.size = size
     }
     
     var body: some View {
