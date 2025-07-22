@@ -49,63 +49,68 @@ enum AtomType: String, CaseIterable {
         case .I: return 53
         }
     }
+
+    /// 각 껍질별 최대 전자 수
+    private var maxElectronsPerOrbit: [Int] {
+        [2, 8, 8, 18, 18, 32, 32]
+    }
+
+
+    /// 전자 껍질 
+    var orbit: Int {
+        switch atomicNumber {
+        case 1...2: return 1
+        case 3...10: return 2
+        case 11...18: return 3
+        case 19...36: return 4
+        case 37...54: return 5
+        case 55...86: return 6
+        case 87...118: return 7
+        default: return 0
+        }
+    }
+
+    // 각 껍질별 실제 전자 수 계산
+    var electronsPerOrbit: [Int] {
+        var remainingElectrons = atomicNumber
+        var result = [Int]()
+        
+        for shellMax in maxElectronsPerOrbit {
+            if remainingElectrons <= 0 { break }
+            let shellElectrons = min(remainingElectrons, shellMax)
+            result.append(shellElectrons)
+            remainingElectrons -= shellElectrons
+        }
+        
+        return result
+    }
     
-    /// 최외각 전자수
+    // 최외각 전자 수
     var valenceElectrons: Int {
-        switch self {
-        case .H: return 1
-        case .He: return 2
-        case .Li: return 1
-        case .Be: return 2
-        case .B: return 3
-        case .C: return 4
-        case .N: return 5
-        case .O: return 6
-        case .F: return 7
-        case .Ne: return 8
-        case .Na: return 1
-        case .Mg: return 2
-        case .Al: return 3
-        case .Si: return 4
-        case .P: return 5
-        case .S: return 6
-        case .Cl: return 7
-        case .Ar: return 8
-        case .K: return 1
-        case .Ca: return 2
-        case .Br: return 7
-        case .I: return 7
-        }
+        electronsPerOrbit.last ?? 0
     }
     
-    /// 주기율표 족
+    // 족(group) 계산
     var group: Int {
-        switch self {
-        case .H: return 1
-        case .He: return 18
-        case .Li: return 1
-        case .Be: return 2
-        case .B: return 13
-        case .C: return 14
-        case .N: return 15
-        case .O: return 16
-        case .F: return 17
-        case .Ne: return 18
-        case .Na: return 1
-        case .Mg: return 2
-        case .Al: return 13
-        case .Si: return 14
-        case .P: return 15
-        case .S: return 16
-        case .Cl: return 17
-        case .Ar: return 18
-        case .K: return 1
-        case .Ca: return 2
-        case .Br: return 17
-        case .I: return 17
+        switch atomicNumber {
+        case 1, 3, 11, 19, 37, 55, 87: return 1  // 1족 (알칼리 금속)
+        case 4, 12, 20, 38, 56, 88: return 2  // 2족 (알칼리 토금속)
+        case 21...30: return atomicNumber - 18  // 3족-12족 (전이금속)
+        case 39...48: return atomicNumber - 36  // 3족-12족
+        case 57...80: return atomicNumber - 54  // 3족-12족
+        case 5, 13, 31, 49, 81, 113: return 13  // 13족 (붕소족)
+        case 6, 14, 32, 50, 82, 114: return 14  // 14족 (탄소족)
+        case 7, 15, 33, 51, 83, 115: return 15  // 15족 (질소족)
+        case 8, 16, 34, 52, 84, 116: return 16  // 16족 (산소족)
+        case 9, 17, 35, 53, 85, 117: return 17  // 17족 (할로젠)
+        case 2, 10, 18, 36, 54, 86, 118: return 18  // 18족 (비활성 기체)
+        case 57...71: return 3  // 란타넘족 (모두 3족으로 처리)
+        case 89...103: return 3 // 악티늄족 (모두 3족으로 처리)
+        default: return 0
         }
     }
-    
+
+
     /// 중성자수
     var neutronCount: Int {
         switch self {
@@ -163,6 +168,7 @@ enum AtomType: String, CaseIterable {
     }
     
     /// diffuse Color
+    /// 원자 기본 색상
     var diffuseColor: UIColor {
         switch self {
         case .H: return UIColor(hex: "#6DC0FF")
@@ -192,6 +198,7 @@ enum AtomType: String, CaseIterable {
     }
     
     /// emissive Color
+    /// 원자 발광 색상
     var emissiveColor: UIColor {
         switch self {
         case .H: return UIColor(hex: "#0072FF")
