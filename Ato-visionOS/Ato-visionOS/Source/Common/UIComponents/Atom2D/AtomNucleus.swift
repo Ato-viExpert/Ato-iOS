@@ -17,13 +17,13 @@ struct AtomNucleus: View {
 
     // MARK: - Body
     var body: some View {
-        ZStack {
-            Circle()
-                .frame(width: size * 0.5, height: size * 0.5)
-                .foregroundColor(color)
-            Text(symbol)
-                .font(.system(size: size * 0.2, weight: .bold))
-                .foregroundColor(.white)
-        }
+        Text(symbol)
+            .font(.system(size: size * 0.2, weight: .bold))
+            .foregroundColor(.white)
+            .padding(20)
+            .background(
+                Circle()
+                    .fill(color)
+            )
     }
 }

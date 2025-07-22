@@ -7,13 +7,8 @@ import SwiftUI
 struct Atom2D: View {
     // MARK: - Properties
 
-    // MARK: - Properties
-
     private let atomType: AtomType
     private let size: CGFloat
-    private var atomColor: Color {
-        Color(uiColor: atomType.diffuseColor)
-    }
     
     /// Atom2D
     /// - Parameters:
@@ -23,7 +18,13 @@ struct Atom2D: View {
         self.atomType = atomType
         self.size = size
     }
+
+    /// 원자 핵 색상
+    private var atomColor: Color {
+        Color(uiColor: atomType.diffuseColor)
+    }
     
+    // MARK: - Body
     var body: some View {
         ZStack {
             // MARK: - 원자핵
