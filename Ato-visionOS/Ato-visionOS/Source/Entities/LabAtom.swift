@@ -12,9 +12,9 @@ class LabAtom: Atom {
     // MARK: - Propteries
     
     private let id = UUID()
-    private let color1: Color
-    private let color2: Color
-    private let size: Int
+    private let diffuseColor: UIColor
+    private let emissiveColor: UIColor
+    private let modelScale: Float
     
     // MARK: - Init
     
@@ -22,14 +22,18 @@ class LabAtom: Atom {
         atomicNumber: Int,
         symbol: String,
         electronShells: [Int],
-        color1: Color,
-        color2: Color,
-        size: Int
+        diffuseColor: UIColor,
+        emissiveColor: UIColor,
+        modelScale: Float
     ) {
-        let atomType = AtomType.from(atomicNumber: atomicNumber)
-        self.color1 = color1
-        self.color2 = color2
-        self.size = size
+        guard let atomType = AtomType.from(atomicNumber: atomicNumber) else {
+            fatalError("Invalid atomic number: \(atomicNumber)")
+        }
+        
+//        let atomType = AtomType.from(atomicNumber: atomicNumber)
+        self.diffuseColor = atomType.diffuseColor
+        self.emissiveColor = atomType.emissiveColor
+        self.modelScale = atomType.modelScale
         super.init(atomicNumber: atomicNumber, symbol: symbol, electronShells: electronShells)
     }
 }
