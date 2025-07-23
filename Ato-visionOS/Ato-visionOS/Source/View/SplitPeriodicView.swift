@@ -60,8 +60,7 @@ struct SplitPeriodicView: View {
                         .weight(.bold)
                         )
                         .multilineTextAlignment(.center)
-                        .foregroundColor(.white.opacity(0.2))
-
+                        .foregroundStyle(.white.opacity(0.2))
                         .frame(width: 288, alignment: .top)
                         Spacer()
                     }
