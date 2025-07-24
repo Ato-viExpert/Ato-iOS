@@ -16,7 +16,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2DCA2E922E2E6C2A00CED362 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */ = {
+		2D9ACD9A2E2F743000F0E6F7 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resource/Info.plist,
@@ -29,7 +29,7 @@
 		2D4BC4B92E264DDC00BB30F0 /* Ato-visionOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				2DCA2E922E2E6C2A00CED362 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */,
+				2D9ACD9A2E2F743000F0E6F7 /* Exceptions for "Ato-visionOS" folder in "Ato-visionOS" target */,
 			);
 			path = "Ato-visionOS";
 			sourceTree = "<group>";

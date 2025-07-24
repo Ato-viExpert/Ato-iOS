@@ -77,14 +77,14 @@ struct PeriodicTableView: View {
                             .weight(.bold)
                     )
                     .multilineTextAlignment(.center)
-                    .foregroundColor(Color(red: 0.97, green: 0.98, blue: 0.98))
+                    .foregroundStyle(Color(red: 0.97, green: 0.98, blue: 0.98))
                     .frame(maxWidth: .infinity, alignment: .center)
                 Text("주기율표의 원소들을 클릭하여 관찰하고\n 아래 도구를 이용해 원자들을 결합하여 분자로 만들어보세요!")
                     .font(
                         Font.custom("SF Pro", size: descriptionFontSize)
                     )
                     .multilineTextAlignment(.center)
-                    .foregroundColor(Color(red: 0.97, green: 0.98, blue: 0.98))
+                    .foregroundStyle(Color(red: 0.97, green: 0.98, blue: 0.98))
                 Spacer(minLength: 55)
                 
                 // MARK: - 주기율표 버튼

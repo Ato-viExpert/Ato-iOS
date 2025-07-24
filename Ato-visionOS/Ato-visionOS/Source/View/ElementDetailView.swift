@@ -50,7 +50,7 @@ struct ElementDetailView: View {
                 .weight(.bold)
                 )
                 .multilineTextAlignment(.leading)
-                .foregroundColor(.white)
+                .foregroundStyle(.white)
             
             Divider()
             
@@ -64,7 +64,7 @@ struct ElementDetailView: View {
             
             Text(element.description)
                 .font(Font.custom("SF Pro Display", size: bodyFontSize))
-                .foregroundColor(.white)
+                .foregroundStyle(.white)
                 .frame(width: 295.38199, alignment: .topLeading)
 
         }
