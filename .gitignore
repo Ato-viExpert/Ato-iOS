@@ -113,3 +113,10 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode,cocoapods,swift
+
+
+# Reality Composer Pro
+*.rcuserdata
+*.rcprojectdata
+WorkspaceData/
+SceneMetadataList.json
