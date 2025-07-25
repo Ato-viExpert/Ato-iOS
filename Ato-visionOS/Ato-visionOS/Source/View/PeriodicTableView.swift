@@ -13,22 +13,30 @@ import RealityFoundation
 /// 주기율표
 /// 원소들을 버튼으로 배치하고, 선택 시 상위 뷰에 바인딩된 selectedElement를 업데이트함
 
+let detailAtomList = DetailAtomMockData.allDescriptions
+
+let detailAtomDict: [String: DetailAtomModel] = Dictionary(
+    uniqueKeysWithValues: DetailAtomMockData.allDescriptions.map { ($0.symbol, $0) }
+)
+
+let elementsGrid: [[DetailAtomModel?]] = symbolGrid.map { row in
+    row.map { symbol in
+        symbol.isEmpty ? nil : detailAtomDict[symbol]
+    }
+}
+
+
+
 struct PeriodicTableView: View {
     
     // MARK: - Binding
-    /// 선택된 원소를 상위 뷰(SplitPeriodicView)와 공유
-    @Binding var selectedElement: Element?
+
+    @Binding var selectedAtom: DetailAtomModel?
     
     // MARK: - Properties
-    /// 2차원 원소 배열 (빈 칸은 nil)
-    let elementsGrid: [[Element?]]
-    
-    /// 전체 컨테이너의 너비와 높이 (뷰 외부에서 전달됨)
-    private let containerWidth: CGFloat
-    private let containerHeight: CGFloat
-    
-    /// 버튼 간 간격
-    private let buttonSpacing: CGFloat = 10.0
+    let elementsGrid: [[DetailAtomModel?]]
+    let width: CGFloat
+    let height: CGFloat
     
     @Environment(AppModel.self) private var appModel
     
@@ -37,92 +45,68 @@ struct PeriodicTableView: View {
     /// - Parameters:
     ///   - selectedElement: 상위에서 선택된 원소
     ///   - elementsGrid: 2차원 원소 배열(주기율표 데이터)
-    ///   - containerWidth: 뷰 너비
-    ///   - containerHeight: 뷰 높이
-    init(selectedElement: Binding<Element?>, elementsGrid: [[Element?]], containerWidth: CGFloat, containerHeight: CGFloat) {
-        self._selectedElement = selectedElement
+    init(
+        selectedAtom: Binding<DetailAtomModel?>,
+        elementsGrid: [[DetailAtomModel?]],
+        width: CGFloat,
+        height: CGFloat
+    ) {
+        self._selectedAtom = selectedAtom
         self.elementsGrid = elementsGrid
-        self.containerWidth = containerWidth
-        self.containerHeight = containerHeight
+        self.width = width
+        self.height = height
+        
     }
     
     // MARK: - Body
     var body: some View {
-        GeometryReader { geometry in
             
-            // MARK: - 버튼 배치 계산
-            let maxColumns = 8.0 // 한 줄 최대 버튼 수
-            let maxRows = Double(elementsGrid.count) // 총 행 수 5
+        let buttonWidthSpacing: CGFloat = width * 0.02
+//        let buttonHeightSpacing: CGFloat = height * 0.01
+        
+        VStack {
             
-            let spacing = buttonSpacing * (maxColumns + 30)
+            // MARK: - 타이틀 및 설명
             
-            let availableWidth = containerWidth - spacing
-            let availableHeight = containerHeight - spacing
+            Spacer(minLength: 50)
+            TitleSection(width: width)
             
-            let buttonSize = min(availableWidth / maxColumns,
-                                 availableHeight / maxRows)
-            
-            let titleFontSize = buttonSize * 0.65
-            let descriptionFontSize = buttonSize * 0.38
-            
-            
-            VStack(spacing: buttonSpacing) {
-                
-                // MARK: - 타이틀 및 설명
-                
-                Spacer(minLength: 50)
-                Text("주기율표")
-                    .font(
-                        Font.custom("SF Pro", size: titleFontSize)
-                            .weight(.bold)
-                    )
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color(red: 0.97, green: 0.98, blue: 0.98))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                Text("주기율표의 원소들을 클릭하여 관찰하고\n 아래 도구를 이용해 원자들을 결합하여 분자로 만들어보세요!")
-                    .font(
-                        Font.custom("SF Pro", size: descriptionFontSize)
-                    )
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color(red: 0.97, green: 0.98, blue: 0.98))
-                Spacer(minLength: 55)
-                
-                // MARK: - 주기율표 버튼
+            // MARK: - 주기율표 버튼
+//                PeriodicGridView
+            VStack(spacing: buttonWidthSpacing) {
                 ForEach(0..<elementsGrid.count, id: \.self) { row in
-                    HStack(spacing: buttonSpacing) {
+                    HStack(spacing: buttonWidthSpacing) {
                         ForEach(0..<elementsGrid[row].count, id: \.self) { col in
                             if let element = elementsGrid[row][col],
                                let atomType = atomType(from: element) {
-                                CustomButton(col: element.imageName, size: buttonSize) {
-                                    selectedElement = element
+                                CustomButton(atom: atomType, width: width, height: height) {
+                                    selectedAtom = element
                                     spawnAtom(of: atomType)
                                 }
                             } else {     //빈 문자열("") → nil
                                 Color.clear
-                                    .frame(width: buttonSize, height: buttonSize)
+                                    .frame(width: width * 0.08, height: height * 0.1)
                             }
                         }
                     }
                 }
-                
-                Spacer(minLength: 50)
             }
+            Spacer(minLength: 70)
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(width * 0.04)
     }
+    
     
     // MARK: - Methods
     
-    /// Element로부터 AtomType을 안전하게 추출합니다.
     /// - Parameter element: 원소 정보
     /// - Returns: AtomType (예: .hydrogen, .oxygen) 또는 nil
-    private func atomType(from element: Element?) -> AtomType? {
-        guard let symbol = element?.imageName else { return nil }
+    private func atomType(from element: DetailAtomModel?) -> AtomType? {
+        guard let symbol = element?.symbol else { return nil }
         return AtomType(rawValue: symbol)
     }
     
-    /// 주어진 원자 타입을 기반으로 AtomEntity를 생성하고 RealityViewContent에 추가합니다.
-    /// 커맨드 패턴을 이용해 생성 작업을 비동기적으로 실행하며, 실행된 커맨드는 undo/redo를 위해 기록됩니다.
     /// - Parameter type: 생성할 원자의 AtomType (예: .hydrogen, .carbon 등)
     private func spawnAtom(of type: AtomType) {
         guard let content = appModel.realityContent else { return }
@@ -131,4 +115,46 @@ struct PeriodicTableView: View {
             let _ = await appModel.commandManager.execute(command, in: content)
         }
     }
+    
+    @ViewBuilder
+    private func CustomButton(
+        atom: AtomType,
+        width: CGFloat,
+        height: CGFloat,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Text(atom.symbol)
+                .font(.system(size: width * 0.04, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.3))
+                .frame(width: width * 0.08, height: height * 0.1)
+                .background(
+                    RoundedRectangle(cornerRadius: width * 0.02)
+                        .fill(.white.opacity(0.3))
+                )
+        }
+        .frame(width: width * 0.08, height: height * 0.1)
+        .buttonStyle(.borderless)
+    }
+    
+    
+    @ViewBuilder
+    private func TitleSection(
+        width: CGFloat
+    ) -> some View {
+        Text("주기율표")
+            .font(.system(size: width * 0.04, weight: .semibold))
+            .multilineTextAlignment(.center)
+            .foregroundColor(Color(red: 0.97, green: 0.98, blue: 0.98))
+            .frame(maxWidth: .infinity, alignment: .center)
+            .dynamicTypeSize(.large ... .xxxLarge)
+        Spacer(minLength: 15)
+        Text("버튼을 클릭해 원자를 살펴보고, 도구를 이용해 분자를 만들어보세요")
+            .font(.system(size: width * 0.02, weight: .semibold))
+            .multilineTextAlignment(.center)
+            .foregroundColor(Color(red: 0.97, green: 0.98, blue: 0.98))
+            .dynamicTypeSize(.large ... .xxxLarge)
+        Spacer(minLength: 55)
+    }
 }
+

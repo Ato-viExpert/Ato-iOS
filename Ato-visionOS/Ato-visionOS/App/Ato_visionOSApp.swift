@@ -16,12 +16,14 @@ struct Ato_visionOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+//                .frame(minWidth: 1300, minHeight: 700)
                 .environment(appModel)
                 .task {
                     await openImmersiveSpace(id: appModel.immersiveSpaceID)
                 }
         }
         .windowStyle(.plain)
+//        .defaultSize(width: .infinity, height: .infinity)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()

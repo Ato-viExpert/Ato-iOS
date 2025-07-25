@@ -12,4 +12,5 @@ struct DetailAtomModel: Identifiable {
     let symbol: String          // "H"
     let name: String            // "수소" or "Hydrogen"
     let description: String     // 상세 설명
+    
 }
