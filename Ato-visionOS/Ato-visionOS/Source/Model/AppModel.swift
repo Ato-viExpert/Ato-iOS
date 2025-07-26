@@ -13,6 +13,7 @@ import RealityKit
 @Observable
 class AppModel {
     let immersiveSpaceID = "ImmersiveSpace"
+    let labID = "Lab"
     enum ImmersiveSpaceState {
         case closed
         case inTransition
