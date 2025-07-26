@@ -10,61 +10,73 @@ import SwiftUI
 // MARK: - ElementDetailView
 struct ElementDetailView: View {
     
-    // MARK: - Properties
-    let element: DetailAtomModel
+    @Binding var elementDetail: ElementDetail?
+    
+    @State private var selectedMolecule: DetailMoleculeModel? = nil
+    
+    private let allDescriptions = DetailMoleculeMockData.allDescriptions
+    
     let width: CGFloat
     let height: CGFloat
     
-    
-    // MARK: - Init
-    /// - Parameters:
-    ///   - element: 상세 정보를 표시할 원소
-    init(
-        element: DetailAtomModel,
-        width: CGFloat,
-        height: CGFloat
-    ){
-        self.element = element
-        self.width = width
-        self.height = height
-    }
-    
     // MARK: - Body
     var body: some View {
-        VStack(alignment: .leading, spacing: 30) {
-            // MARK: - 원소 이름
-            VStack(alignment: .leading, spacing: 30) {
-                Text("\(element.symbol)(\(element.name))")
-                    .font(Font.custom("SF Pro Display", size: width * 0.08)
-                        .weight(.bold)
-                    )
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(.white)
-                Divider()
-                    .frame(width: width * 0.66)
-                
-            }
-            .frame(height: height * 0.1)
+        VStack(spacing: 30) {
             
-                        
-            // MARK: - 원소 이미지 + 설명 텍스트
-//            Image("H") //element.imageName
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: width * 0.69)
-//                .clipShape(.circle)
-//                .padding(.bottom, 20) // 임시
-            Spacer()
-            Text(element.description)
-                .font(Font.custom("SF Pro Display", size: width * 0.04))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .frame(minHeight: height * 0.3)
-            Spacer()
+            Picker("분자 선택", selection: $selectedMolecule) {
+                ForEach(DetailMoleculeMockData.allDescriptions, id: \.id) { molecule in
+                    Text(molecule.name).tag(Optional(molecule))
+                }
+            }
+            .onChange(of: selectedMolecule) {
+                if let molecule = selectedMolecule {
+                    elementDetail = .molecule(molecule)
+                }
+            }
+            
+//            .pickerStyle(.menu) // 또는 .wheel
+//            .padding(.bottom, 10)
+            
+            Divider()
+            
+            // 상세 내용 표시
+            
+//            Group {
+            switch elementDetail {
+            case .atom(let atom):
+                AtomDetailView(atom: atom, width: width, height: height)
+                
+            case .molecule(let molecule):
+                MoleculeDetailView(molecule: molecule, width: width, height: height)
+            case .none:
+                VStack {
+                    Spacer()
+                    
+                    Image(systemName: "questionmark.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: width * 0.1)
+                        .foregroundStyle(.white.opacity(0.3))
+
+                    Text("원소 또는 분자를 선택해주세요.")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white.opacity(0.4))
+                        .multilineTextAlignment(.center)
+                        .padding()
+
+                    Spacer()
+                }
+            }
+//            }
+//            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.top, height * 0.05)
-        .padding(.horizontal, width * 0.12)
+        .padding()
+
     }
 }
 
+enum ElementDetail {
+    case atom(DetailAtomModel)
+    case molecule(DetailMoleculeModel)
+}

@@ -9,45 +9,33 @@ import SwiftUI
 
 struct ToolbarView: View {
     // MARK: - Properties
-    let containerSize: CGSize
-    private let baseWidth: CGFloat = 450
-    private let baseHeight: CGFloat = 69
+    let width: CGFloat
+    let height: CGFloat
     private let tools = ToolType.allCases
     
     // MARK: - Body
 
     var body: some View {
-//        GeometryReader { geo in
-        let widthRatio = containerSize.width * 0.71 / baseWidth//containerSize.width * 0.71 * 0.45
-        let heightRatio = containerSize.height / baseHeight//containerSize.height * 0.28 * 0.8
-//        let widthRatio = geo.size.width / baseWidth
-//        let heightRatio = geo.size.height / baseHeight
 
-        HStack(spacing: 16 * widthRatio) { //baseWidth * 0.03)
+        HStack(spacing: width * 0.03) {
             ForEach(Array(tools.enumerated()), id: \.1) { index, tool in
                 if index > 0 && tools[index - 1].group != tool.group {
-                    Rectangle()
-                        .background(Color.secondary)
-//                        .frame(width: baseHeight * 0.01, height: baseHeight * 0.01)
-                        .frame(width: 1 * widthRatio, height: 24 * heightRatio)
+                    Divider()
+                        .frame(height: height * 0.05)
                 }
 
                 ToolbarIconButton(tool: tool)
-//                    .frame(width: baseHeight * 0.65, height: baseHeight * 0.65)
-                    .frame(width: 44 * widthRatio, height: 44 * heightRatio)
+                    .frame(width: height * 0.05, height: height * 0.05)
             }
         }
-//        .padding(.horizontal, baseWidth * 0.03)
-//        .padding(.vertical, baseHeight * 0.17)
-        .padding(.horizontal, 48 * widthRatio)
-        .padding(.vertical, 16 * heightRatio)
-        .frame(width: containerSize.width, height: containerSize.height * 0.1)
-//        .frame(width: geo.size.width, height: geo.size.height)
+        .frame(width: max(width * 0.42, 610), height: max(height * 0.08, 65))
+//        .onChange(of: width) {
+//            print("width * 0.42:\(width * 0.42)") //617.8199999999999
+//            print("height * 0.08:\(height * 0.08)")//66
+//        }
         .bg()
         .clipShape(Capsule())
-//        }
-//        .frame(minWidth: baseWidth, minHeight: baseHeight)
-//        .frame(minWidth: containerSize.width * 0.71 * 0.45, minHeight: containerSize.height * 0.28 * 0.08)
+
     }
 }
 
@@ -78,6 +66,6 @@ fileprivate struct ToolbarIconButton: View {
 }
 
 #Preview(windowStyle: .plain) {
-    ToolbarView(containerSize: CGSize(width: 1478, height: 1000))
+    ToolbarView(width: 1000, height: 800)
         .environment(AppModel())
 }

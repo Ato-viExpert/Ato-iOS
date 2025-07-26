@@ -17,11 +17,12 @@ struct SplitPeriodicView: View {
     // MARK: - State
     // 사용자가 선택한 원소
     @State private var selectedAtom: DetailAtomModel? = nil
+    @State private var selectedMolecule: DetailMoleculeModel? = nil
+    @State private var elementDetail: ElementDetail? = nil
 
     // MARK: - Body
     var body: some View {
         GeometryReader {geometry in
-            let size = geometry.size
             let width: CGFloat = geometry.size.width
             let height: CGFloat = geometry.size.height
 //            let dynamicCorner = min(30, min(width, height) * 0.05)
@@ -29,65 +30,95 @@ struct SplitPeriodicView: View {
             HStack(spacing: 10) {
                 // MARK: - 주기율표 뷰 (왼쪽)
                 
-                PeriodicTableView(
-                    selectedAtom: $selectedAtom,
-                    elementsGrid: elementsGrid,
-                    width: width * 0.71,
-                    height: height
-                )
-                .frame(width: width * 0.71, height: height)
-                .background(
-                  LinearGradient(
-                    stops: [
-                      Gradient.Stop(color: .white.opacity(0.37), location: 0.00),
-                      Gradient.Stop(color: Color(red: 0.45, green: 0.45, blue: 0.45).opacity(0.42), location: 0.95),
-                    ],
-                    startPoint: UnitPoint(x: 0, y: -0.06),
-                    endPoint: UnitPoint(x: 1, y: 1)
-                  )
-                )
-                .cornerRadius(55)
-                
-                
-                Color.clear
-                    .frame(width: width * 0.001)
-        
-                // MARK: - 상세 정보 뷰 (오른쪽)
-                Group {
-                    if let element = selectedAtom {
-                        ElementDetailView(element: element, width: width * 0.28, height: height)
-                    } else {
-                        VStack {
-                            Spacer()
-                            Text("원소를 선택해주세요.")
-                                .font(
-                                    Font.custom("SF Pro Display", size: width * 0.02)
-                                .weight(.bold)
-                                )
-                                .multilineTextAlignment(.center)
-                                .foregroundStyle(.white.opacity(0.2))
-                                //.dynamicTypeSize(.xLarge)
-                            Spacer()
-                        }
-                    }
+                ZStack(alignment: .bottom) {
+                    PeriodicTableView(
+                        selectedAtom: $selectedAtom,
+                        elementsGrid: elementsGrid,
+                        width: width * 0.71,
+                        height: height
+                    )
+                    .frame(width: width * 0.71, height: height)
+                    .bg()
+                    .cornerRadius(55)
+                    
+                    ToolbarView(width: width, height: height)
+                        .offset(y: 30)
+//                        .frame(width: 300, height: 80)
+                    
                 }
-                .frame(width: width * 0.28, height: height)
-                .background(
-                  LinearGradient(
-                    stops: [
-                      Gradient.Stop(color: .white.opacity(0.37), location: 0.00),
-                      Gradient.Stop(color: Color(red: 0.45, green: 0.45, blue: 0.45).opacity(0.42), location: 0.95),
-                    ],
-                    startPoint: UnitPoint(x: 0, y: -0.06),
-                    endPoint: UnitPoint(x: 1, y: 1)
-                  )
-                )
-                .cornerRadius(55)
+                
+                Spacer()
+                    .frame(width: width * 0.001)
+
+                // MARK: - 상세 정보 뷰 (오른쪽)
+//                Group {
+//                if let molecule = selectedMolecule {
+//                    elementDetail = .molecule(molecule)
+//                } else if let atom = selectedAtom {
+//                    elementDetail = .atom(atom)
+//                }
+//                if let detail = elementDetail {
+//                    ElementDetailView(
+//                        elementDetail: $elementDetail, // ✅ 바인딩 넘기는 부분
+//                        width: width * 0.28,
+//                        height: height
+//                    )
+//                } else {
+//                    Text("원소를 선택해주세요.")
+//                }
+//                    VStack {
+//                        Spacer()
+//                        Text("원소를 선택해주세요.")
+//                            .font(
+//                                Font.custom("SF Pro Display", size: width * 0.02)
+//                            .weight(.bold)
+//                            )
+//                            .multilineTextAlignment(.center)
+//                            .foregroundStyle(.white.opacity(0.2))
+//                            //.dynamicTypeSize(.xLarge)
+//                        Spacer()
+//                    }
+//                }
+                if let detail = elementDetail {
+                    ElementDetailView(
+                        elementDetail: $elementDetail,  // ← 바인딩 전달
+                        width: width * 0.28,
+                        height: height
+                    )
+                } else {
+                    VStack {
+                        Spacer()
+                        Text("원소를 선택해주세요.")
+                            .font(
+                                Font.custom("SF Pro Display", size: width * 0.02)
+                                    .weight(.bold)
+                            )
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.white.opacity(0.2))
+                        Spacer()
+                    }
+                    .frame(width: width * 0.28, height: height)
+                    .bg()
+                    .cornerRadius(55)
+                }
+//                }
+//                .frame(width: width * 0.28, height: height)
+//                .bg()
+//                .cornerRadius(55)
             }
-            .background(
-                Color.clear
-                    .preference(key: SplitViewWindowSizeKey.self, value: size)
-                )
+            .padding(.bottom, 40)
+            .onChange(of: selectedAtom) { 
+                if let atom = selectedAtom {
+                    elementDetail = .atom(atom)
+                    selectedMolecule = nil  // 분자 선택 초기화
+                }
+            }
+            .onChange(of: selectedMolecule) { newMolecule in
+                if let molecule = newMolecule {
+                    elementDetail = .molecule(molecule)
+                    selectedAtom = nil  // 원자 선택 초기화
+                }
+            }
         }
     }
 }
