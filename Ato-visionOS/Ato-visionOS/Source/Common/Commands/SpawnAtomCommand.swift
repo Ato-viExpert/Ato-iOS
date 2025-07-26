@@ -33,12 +33,8 @@ final class SpawnAtomCommand: Command {
     /// - Returns: 생성된 AtomEntity를 포함한 CommandResult
     func execute(in content: RealityViewContent) async throws -> CommandResult {
         if let existingEntity = spawnedEntity {
-
-            await MainActor.run {
-                if let anchor = content.entities.first(where: { $0.name == "main-anchor" }) as? AnchorEntity {
-                    anchor.addChild(existingEntity)
-                }
-            }
+            
+            content.add(existingEntity)
             
             return .entity(existingEntity)
         }
@@ -46,11 +42,7 @@ final class SpawnAtomCommand: Command {
         let atomEntity = try await AtomEntity(instance: instance)
         spawnedEntity = atomEntity
         
-        await MainActor.run {
-            if let anchor = content.entities.first(where: { $0.name == "main-anchor" }) as? AnchorEntity {
-                anchor.addChild(atomEntity)
-            }
-        }
+        content.add(atomEntity)
         return .entity(atomEntity)
     }
     
