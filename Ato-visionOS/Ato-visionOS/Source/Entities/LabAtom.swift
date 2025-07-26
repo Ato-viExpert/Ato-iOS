@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import RealityKitContent
 
 struct Bond{
     let atomUUID: UUID /// 결합 상대 원자 고유 번호
@@ -16,41 +17,51 @@ struct Bond{
 class LabAtom: Atom {
     // MARK: - Propteries
     
-    private let moleculeUUID: UUID? /// 분자 고유 번호(동일 분자들과 결합시 구분)
-    private let atomUUID: UUID /// 원자 고유 번호(동일 원자들과 결합시 구분)
-    private let period: Int /// 주기(1주기는 2가 최대, 2주기 이상 부터는 8이 최대로 알고리즘 작성)
-    private let outerElement: Int /// 최외각 전자 수
-
-    private var sharedElectrons: Int = 0 /// 결합 전자 수
-    private var unpairedElectrons: Int { /// 홀전자 수(결합 가능한 전자 수)
-        return maxElectronCount - sharedElectrons
-    } 
-    private var bonds: [Bond] = [] /// 결합 정보
-    private let diffuseColor: UIColor /// 확산 색상
-    private let emissiveColor: UIColor /// 발광 색상
-    private let modelScale: Float /// 모델 크기
+    private let id = UUID()
+    private let diffuseColor: UIColor
+    private let emissiveColor: UIColor
+    private let modelScale: Float
+    private(set) var entity: Entity?
     
     // MARK: - Init
     
     init(
-        moleculeUUID: UUID?,
-        atomUUID: UUID,
-        period: Int,
-        outerElement: Int,
-        diffuseColor: UIColor,
-        emissiveColor: UIColor,
-        modelScale: Float,
-        sharedElectrons: Int = 0,
-        bonds: [Bond] = []
+        atomicNumber: Int
     ) {
         guard let atomType = AtomType.from(atomicNumber: atomicNumber) else {
             fatalError("Invalid atomic number: \(atomicNumber)")
         }
         
-//        let atomType = AtomType.from(atomicNumber: atomicNumber)
         self.diffuseColor = atomType.diffuseColor
         self.emissiveColor = atomType.emissiveColor
         self.modelScale = atomType.modelScale
-        super.init(atomicNumber: atomicNumber, symbol: symbol, electronShells: electronShells)
+        super.init(
+            atomicNumber: atomicNumber,
+            symbol: atomType.symbol,
+            electronShells: atomType.electronsPerOrbit
+        )
+    }
+    
+    // MARK: - Methods
+    
+    /// 주어진 LabAtom의 속성(심볼, 스케일 등)을 기반으로 RealityKit 엔티티를 비동기적으로 로드하고 설정합니다.
+    /// - Returns: 설정이 완료된 RealityKit 엔티티
+    func loadEntity() async throws -> Entity {
+        if let existing = entity {
+            return existing
+        }
+        let root = try await Entity(named: symbol, in: realityKitContentBundle)
+        
+        await MainActor.run {
+            root.scale = SIMD3<Float>(repeating: modelScale)
+            
+            let bounds = root.visualBounds(relativeTo: nil)
+            let shape = ShapeResource.generateBox(size: bounds.extents)
+            root.components.set(CollisionComponent(shapes: [shape]))
+            root.components.set(InputTargetComponent())
+        }
+
+        self.entity = root
+        return root
     }
 }

@@ -17,44 +17,6 @@ struct ImmersiveView: View {
             }
         }
     }
-    
-    var tapGesture: some Gesture {
-        TapGesture()
-            .targetedToAnyEntity()
-            .onEnded { value in
-                guard let content = appModel.realityContent else { return }
-                
-                let entity = value.entity
-                
-                switch appModel.selectedTool {
-                case .bond:
-                    if let bondable = entity as? Bondable {
-                        selectedBondables.append(bondable)
-                        
-                        if selectedBondables.count == 2 {
-                            let first = selectedBondables[0]
-                            let second = selectedBondables[1]
-                            
-                            Task {
-                                let command = BondCommand(first: first, second: second)
-                                _ = await appModel.commandManager.execute(command, in: content)
-                            }
-                            
-                            selectedBondables.removeAll()
-                        }
-                    }
-                case .dissociate:
-                    if let molecule = entity as? MoleculeEntity {
-                        Task {
-                            let command = DissociateCommand(target: molecule)
-                            _ = await appModel.commandManager.execute(command, in: content)
-                        }
-                    }
-                default:
-                    break
-                }
-            }
-    }
 }
 
 #Preview(immersionStyle: .full) {
