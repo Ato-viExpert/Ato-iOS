@@ -142,28 +142,28 @@ enum AtomType: String, CaseIterable {
     /// 원자 크기
     var modelScale: Float {
         switch self {
-        case .H: return 0.04
-        case .He: return 0.045
-        case .Li: return 0.06
-        case .Be: return 0.058
-        case .B: return 0.055
-        case .C: return 0.052
-        case .N: return 0.051
-        case .O: return 0.05
-        case .F: return 0.05
-        case .Ne: return 0.048
-        case .Na: return 0.065
-        case .Mg: return 0.062
-        case .Al: return 0.061
-        case .Si: return 0.06
-        case .P: return 0.059
-        case .S: return 0.058
-        case .Cl: return 0.057
-        case .Ar: return 0.055
-        case .K: return 0.07
-        case .Ca: return 0.068
-        case .Br: return 0.072
-        case .I: return 0.078
+        case .H: return 0.700
+        case .He: return 0.7875
+        case .Li: return 1.050
+        case .Be: return 1.015
+        case .B: return 0.9625
+        case .C: return 0.910
+        case .N: return 0.8925
+        case .O: return 0.875
+        case .F: return 0.875
+        case .Ne: return 0.840
+        case .Na: return 1.1375
+        case .Mg: return 1.085
+        case .Al: return 1.0675
+        case .Si: return 1.050
+        case .P: return 1.0325
+        case .S: return 1.015
+        case .Cl: return 0.9975
+        case .Ar: return 0.9625
+        case .K: return 1.225
+        case .Ca: return 1.190
+        case .Br: return 1.260
+        case .I: return 1.365
         }
     }
     
@@ -228,17 +228,19 @@ enum AtomType: String, CaseIterable {
 
 extension AtomType {
     
-    // MARK: - Mehtods
+    // MARK: - Methods
     
-    /// 원자번호로.AtomType 매칭
+    /// 원자번호로 AtomType 매칭
     /// - Parameter atomicNumber: 원자 번호 Int 값
-    /// - Returns: 원자번호와 일치하는 AtomType 매칭
+    /// - Returns: 원자번호와 일치하는 AtomType
     static func from(atomicNumber: Int) -> AtomType? {
-        let allCases: [AtomType] = [
-            .H, .He, .Li, .Be, .B, .C, .N, .O, .F, .Ne,
-            .Na, .Mg, .Al, .Si, .P, .S, .Cl, .Ar,
-            .K, .Ca, .Br, .I
+        let map: [Int: AtomType] = [
+            1: .H, 2: .He, 3: .Li, 4: .Be, 5: .B,
+            6: .C, 7: .N, 8: .O, 9: .F, 10: .Ne,
+            11: .Na, 12: .Mg, 13: .Al, 14: .Si, 15: .P,
+            16: .S, 17: .Cl, 18: .Ar, 19: .K, 20: .Ca,
+            35: .Br, 53: .I
         ]
-        return allCases.indices.contains(atomicNumber - 1) ? allCases[atomicNumber - 1] : nil
+        return map[atomicNumber]
     }
 }
