@@ -12,6 +12,7 @@ struct Ato_visionOSApp: App {
     
     @State private var appModel = AppModel()
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @Environment(\.openWindow) private var openWindow
     
     var body: some Scene {
         WindowGroup {
@@ -19,11 +20,16 @@ struct Ato_visionOSApp: App {
 //                .frame(minWidth: 1300, minHeight: 700)
                 .environment(appModel)
                 .task {
-                    await openImmersiveSpace(id: appModel.immersiveSpaceID)
+                    openWindow(id: appModel.labID)
                 }
         }
         .windowStyle(.plain)
-//        .defaultSize(width: .infinity, height: .infinity)
+      
+        WindowGroup(id: appModel.labID) {
+            LabView()
+                .environment(appModel)
+        }
+        .windowStyle(.volumetric)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
