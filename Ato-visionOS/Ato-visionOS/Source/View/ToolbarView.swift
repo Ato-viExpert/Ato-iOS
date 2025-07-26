@@ -53,7 +53,7 @@ fileprivate struct ToolbarIconButton: View {
                 .foregroundStyle(iconColor)
         }
         .buttonStyle(.plain)
-        .background((appModel.selectedTool == tool) ? .white.opacity(0.36) : .clear)
+        .background()
         .clipShape(
             Circle()
         )

@@ -10,23 +10,16 @@ import RealityKit
 import RealityKitContent
 
 struct ImmersiveView: View {
-    
-    // MARK: - Body
-    
     var body: some View {
         RealityView { content in
-            // Add the initial RealityKit content
-            if let immersiveContentEntity = try? await Entity(named: "ImmersiveSpace", in: realityKitContentBundle) {
+            if let immersiveContentEntity = try? await Entity(named: "ImmersiveSpace.usda", in: realityKitContentBundle) {
                 content.add(immersiveContentEntity)
-
-                // Put skybox here.  See example in World project available at
-                // https://developer.apple.com/
             }
         }
     }
 }
 
-#Preview(immersionStyle: .mixed) {
+#Preview(immersionStyle: .full) {
     ImmersiveView()
         .environment(AppModel())
 }

@@ -23,4 +23,5 @@ class AppModel {
     var selectedTool: ToolType = .move
     let commandManager = CommandManager()
     var realityContent: RealityViewContent? = nil
+
 }

@@ -13,7 +13,7 @@ def "im" (
 {
     quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
     float3 xformOp:scale = (1, 1, 1)
-    float3 xformOp:translate = (0, 2.2368586, -5.587935e-7)
+    float3 xformOp:translate = (0, 90, -5.587935e-7)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
     def Material "Material"
@@ -103,7 +103,7 @@ def Xform "ParticleEmitter"
 {
     quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
     float3 xformOp:scale = (0.09999998, 0.09999998, 0.09999998)
-    float3 xformOp:translate = (-16.070724, 2.2368317, -5.587935e-7)
+    float3 xformOp:translate = (-16.070724, 92.23683, -5.587935e-7)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
     def RealityKitComponent "VFXEmitter"
@@ -197,7 +197,7 @@ def Xform "DirectionalLight"
 {
     quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
     float3 xformOp:scale = (1, 1, 1)
-    float3 xformOp:translate = (-0.80038214, 78.07728, -3.2856865)
+    float3 xformOp:translate = (-0.80038214, 168.07729, -3.2856865)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
     def RealityKitComponent "DirectionalLight"
@@ -221,7 +221,7 @@ def Xform "SpotLight" (
 {
     quatf xformOp:orient = (0.9512512, -0.254887, 0.16773126, 0.044943452)
     float3 xformOp:scale = (0.9999999, 0.9999999, 0.9999999)
-    float3 xformOp:translate = (48.485428, 58.83911, 50.973175)
+    float3 xformOp:translate = (48.485428, 148.83911, 50.973175)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
     def RealityKitComponent "SpotLight"
