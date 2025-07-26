@@ -12,16 +12,24 @@ struct Ato_visionOSApp: App {
     
     @State private var appModel = AppModel()
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @Environment(\.openWindow) private var openWindow
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(appModel)
                 .task {
-                    await openImmersiveSpace(id: appModel.immersiveSpaceID)
+                    openWindow(id: appModel.labID)
                 }
         }
         .windowStyle(.plain)
+        
+        WindowGroup(id: appModel.labID) {
+            LabView()
+                .environment(appModel)
+        }
+        .windowStyle(.volumetric)
+        
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
