@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DetailMoleculeModel: Identifiable {
+struct DetailMoleculeModel: Identifiable, Equatable, Hashable {
     let id: Int                 // 분자 아이디
     let symbol: String          // "H2O"
     let name: String            // "물" or "Oxidane"

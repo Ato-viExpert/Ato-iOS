@@ -11,22 +11,26 @@ import RealityKitContent
 
 struct ContentView: View {
     @Environment(\.openWindow) private var openWindow
+    @State private var splitSize: CGSize = .zero //CGSize(width: 1200, height: 800)
+
     
     var body: some View {
         ZStack(alignment: .bottom) {
             SplitPeriodicView()
-            .padding()
-            .frame(maxWidth: .infinity)
-            .frame(maxHeight: .infinity)
-            .bg()
-            .clipShape(RoundedRectangle(cornerRadius: 55))
-            .padding(.bottom, 35)
+                .padding(.bottom, 40)
+                .frame(minWidth: 900, minHeight: 600)
+//                .fixedSize()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+    //            .bg()
+                .clipShape(RoundedRectangle(cornerRadius: 55))
+                .padding(.bottom, 35)
+                .onPreferenceChange(SplitViewWindowSizeKey.self) { newSize in
+                    splitSize = newSize
+                    print("newSize: \(newSize)")
+                }
             
-            
-            ToolbarView()
-                .aspectRatio(contentMode: .fit)
-                .padding(.horizontal, 305)
         }
+        .frame(minWidth: 1250, minHeight: 650)
     }
 }
 
