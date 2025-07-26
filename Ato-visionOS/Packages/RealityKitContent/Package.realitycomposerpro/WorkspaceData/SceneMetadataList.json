@@ -106,7 +106,8 @@
     "objectMetadataList" : [
       [
         "12032A3E-D397-443A-833D-6F3CB314EF37",
-        "root"
+        "root",
+        "Sphere_004"
       ],
       {
         "isExpanded" : true,
@@ -114,8 +115,7 @@
       },
       [
         "12032A3E-D397-443A-833D-6F3CB314EF37",
-        "root",
-        "Sphere_004"
+        "root"
       ],
       {
         "isExpanded" : true,
@@ -202,10 +202,6 @@
     "objectMetadataList" : [
       [
         "2DE3DFA8-85B2-4296-92AC-4982A7638394",
-<<<<<<< Updated upstream
-        "Root",
-        "SkySphere"
-=======
         "SkySphere"
       ],
       {
@@ -216,7 +212,6 @@
       [
         "2DE3DFA8-85B2-4296-92AC-4982A7638394",
         "Root"
->>>>>>> Stashed changes
       ],
       {
         "isExpanded" : true,
@@ -374,7 +369,6 @@
     "objectMetadataList" : [
       [
         "5CCE9FC0-26E0-4542-9318-802114FF4DE5",
-<<<<<<< Updated upstream
         "root",
         "H",
         "Text"
@@ -386,8 +380,6 @@
       },
       [
         "5CCE9FC0-26E0-4542-9318-802114FF4DE5",
-=======
->>>>>>> Stashed changes
         "root",
         "Light"
       ],
@@ -398,7 +390,6 @@
       [
         "5CCE9FC0-26E0-4542-9318-802114FF4DE5",
         "root",
-<<<<<<< Updated upstream
         "Sphere_001"
       ],
       {
@@ -408,10 +399,6 @@
       [
         "5CCE9FC0-26E0-4542-9318-802114FF4DE5",
         "root"
-=======
-        "H",
-        "Text"
->>>>>>> Stashed changes
       ],
       {
         "isExpanded" : true,
@@ -439,6 +426,17 @@
         "root",
         "Sphere_001",
         "Sphere_001"
+      ],
+      {
+        "disallowsFraming" : false,
+        "isExpanded" : false,
+        "isLocked" : false
+      },
+      [
+        "5CCE9FC0-26E0-4542-9318-802114FF4DE5",
+        "root",
+        "H",
+        "Text"
       ],
       {
         "disallowsFraming" : false,
@@ -521,7 +519,6 @@
     "objectMetadataList" : [
       [
         "7CC341AC-C4C0-4942-98BD-A5635262AE88",
-        "Root",
         "SkySphere"
       ],
       {
@@ -539,6 +536,7 @@
       },
       [
         "7CC341AC-C4C0-4942-98BD-A5635262AE88",
+        "Root",
         "SkySphere"
       ],
       {
@@ -680,9 +678,7 @@
     "objectMetadataList" : [
       [
         "AF34217D-9AC1-4112-85F7-96351EA85EF0",
-        "root",
-        "Al",
-        "Al"
+        "root"
       ],
       {
         "isExpanded" : true,
@@ -690,7 +686,9 @@
       },
       [
         "AF34217D-9AC1-4112-85F7-96351EA85EF0",
-        "root"
+        "root",
+        "Al",
+        "Al"
       ],
       {
         "isExpanded" : true,
@@ -755,6 +753,66 @@
       }
     ]
   },
+  "D1244F03-F15C-4A08-A6E3-6920574CAABF" : {
+    "objectMetadataList" : [
+      [
+        "D1244F03-F15C-4A08-A6E3-6920574CAABF",
+        "Root",
+        "DirectionalLight"
+      ],
+      {
+        "disallowsFraming" : false,
+        "isExpanded" : false,
+        "isLocked" : false
+      },
+      [
+        "D1244F03-F15C-4A08-A6E3-6920574CAABF",
+        "Root",
+        "SpotLight"
+      ],
+      {
+        "disallowsFraming" : false,
+        "isExpanded" : false,
+        "isLocked" : false
+      },
+      [
+        "D1244F03-F15C-4A08-A6E3-6920574CAABF",
+        "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "D1244F03-F15C-4A08-A6E3-6920574CAABF",
+        "Root",
+        "im",
+        "Light"
+      ],
+      {
+        "disallowsFraming" : false,
+        "isExpanded" : false,
+        "isLocked" : false
+      },
+      [
+        "D1244F03-F15C-4A08-A6E3-6920574CAABF",
+        "Root",
+        "im",
+        "stylized_medieval_castle_room_001",
+        "Meshes_002",
+        "Sketchfab_model_002",
+        "_08fccd2c593457d8c1814462df8becf_fbx_001",
+        "RootNode_002",
+        "Cylinder_001",
+        "Cylinder_stuff_0_002"
+      ],
+      {
+        "disallowsFraming" : false,
+        "isExpanded" : false,
+        "isLocked" : false
+      }
+    ]
+  },
   "D560BB77-AAF3-4BDE-B7C4-989332A4688B" : {
     "objectMetadataList" : [
 
@@ -764,7 +822,9 @@
     "objectMetadataList" : [
       [
         "D66134B1-3681-4A8E-AFE5-29F257229F3B",
-        "Root"
+        "Root",
+        "GridMaterial",
+        "GridMaterial"
       ],
       {
         "isExpanded" : true,
@@ -772,9 +832,7 @@
       },
       [
         "D66134B1-3681-4A8E-AFE5-29F257229F3B",
-        "Root",
-        "GridMaterial",
-        "GridMaterial"
+        "Root"
       ],
       {
         "isExpanded" : true,

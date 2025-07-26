@@ -191,8 +191,7 @@ enum AtomType: String, CaseIterable {
         case .Ar: return UIColor(hex: "#FFE7AB")
         case .K: return UIColor(hex: "#00FF6A")
         case .Ca: return UIColor(hex: "#FF4884")
-            // TODO: - Br 색상 물어봐야함
-        case .Br: return UIColor(hex: "#8D22FF")
+        case .Br: return UIColor(hex: "#FFB55F")
         case .I: return UIColor(hex: "#C5FF17")
         }
     }
@@ -221,9 +220,25 @@ enum AtomType: String, CaseIterable {
         case .Ar: return UIColor(hex: "#FFD5A8")
         case .K: return UIColor(hex: "#009400")
         case .Ca: return UIColor(hex: "#8D22FF")
-            // TODO: - Br 색상 물어봐야함
-        case .Br: return UIColor(hex: "#8D22FF")
+        case .Br: return UIColor(hex: "#55422C")
         case .I: return UIColor(hex: "#00C865")
         }
+    }
+}
+
+extension AtomType {
+    
+    // MARK: - Mehtods
+    
+    /// 원자번호로.AtomType 매칭
+    /// - Parameter atomicNumber: 원자 번호 Int 값
+    /// - Returns: 원자번호와 일치하는 AtomType 매칭
+    static func from(atomicNumber: Int) -> AtomType? {
+        let allCases: [AtomType] = [
+            .H, .He, .Li, .Be, .B, .C, .N, .O, .F, .Ne,
+            .Na, .Mg, .Al, .Si, .P, .S, .Cl, .Ar,
+            .K, .Ca, .Br, .I
+        ]
+        return allCases.indices.contains(atomicNumber - 1) ? allCases[atomicNumber - 1] : nil
     }
 }
