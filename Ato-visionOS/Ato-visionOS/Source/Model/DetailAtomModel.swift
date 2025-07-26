@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct DetailAtomModel: Identifiable {
+struct DetailAtomModel: Identifiable, Equatable {
     let id: Int                 // 원자 번호
     let symbol: String          // "H"
     let name: String            // "수소" or "Hydrogen"
     let description: String     // 상세 설명
+    
 }

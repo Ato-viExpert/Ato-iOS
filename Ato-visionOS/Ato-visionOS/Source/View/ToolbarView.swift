@@ -9,40 +9,35 @@ import SwiftUI
 
 struct ToolbarView: View {
     // MARK: - Properties
-    
-    private let baseWidth: CGFloat = 450
-    private let baseHeight: CGFloat = 69
+    let width: CGFloat
+    let height: CGFloat
     private let tools = ToolType.allCases
     
     // MARK: - Body
 
     var body: some View {
-        GeometryReader { geo in
-            let widthRatio = geo.size.width / baseWidth
-            let heightRatio = geo.size.height / baseHeight
 
-            HStack(spacing: 16 * widthRatio) {
-                ForEach(Array(tools.enumerated()), id: \.1) { index, tool in
-                    if index > 0 && tools[index - 1].group != tool.group {
-                        Rectangle()
-                            .background(Color.secondary)
-                            .frame(width: 1 * widthRatio, height: 24 * heightRatio)
-                    }
-
-                    ToolbarIconButton(tool: tool)
-                        .frame(width: 44 * widthRatio, height: 44 * heightRatio)
+        HStack(spacing: width * 0.03) {
+            ForEach(Array(tools.enumerated()), id: \.1) { index, tool in
+                if index > 0 && tools[index - 1].group != tool.group {
+                    Divider()
+                        .frame(height: height * 0.05)
                 }
+
+                ToolbarIconButton(tool: tool)
+                    .frame(width: height * 0.05, height: height * 0.05)
             }
-            .padding(.horizontal, 48 * widthRatio)
-            .padding(.vertical, 16 * heightRatio)
-            .frame(width: geo.size.width, height: geo.size.height)
-            .bg()
-            .clipShape(Capsule())
         }
-        .frame(minWidth: baseWidth, minHeight: baseHeight)
+        .frame(width: max(width * 0.42, 610), height: max(height * 0.08, 65))
+//        .onChange(of: width) {
+//            print("width * 0.42:\(width * 0.42)") //617.8199999999999
+//            print("height * 0.08:\(height * 0.08)")//66
+//        }
+        .bg()
+        .clipShape(Capsule())
+
     }
 }
-
 
 /// 툴 바 버튼
 fileprivate struct ToolbarIconButton: View {
@@ -61,7 +56,6 @@ fileprivate struct ToolbarIconButton: View {
         .background((appModel.selectedTool == tool) ? .white.opacity(0.36) : .clear)
         .clipShape(
             Circle()
-            
         )
     }
     
@@ -99,6 +93,6 @@ fileprivate struct ToolbarIconButton: View {
 }
 
 #Preview(windowStyle: .plain) {
-    ToolbarView()
+    ToolbarView(width: 1000, height: 800)
         .environment(AppModel())
 }

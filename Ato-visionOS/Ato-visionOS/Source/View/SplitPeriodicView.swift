@@ -15,58 +15,132 @@ import SwiftUI
 struct SplitPeriodicView: View {
     
     // MARK: - State
-    /// 사용자가 선택한 원소
-    @State private var selectedElement: Element? = nil
+    // 사용자가 선택한 원소
+    @State private var selectedAtom: DetailAtomModel? = nil
+    @State private var selectedMolecule: DetailMoleculeModel? = nil
+    @State private var elementDetail: ElementDetail? = nil
 
     // MARK: - Body
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader {geometry in
+            let width: CGFloat = geometry.size.width
+            let height: CGFloat = geometry.size.height
+//            let dynamicCorner = min(30, min(width, height) * 0.05)
             
-            // MARK: - 레이아웃 계산
-            
-            let totalWidth = geometry.size.width
-            let leftWidth = totalWidth * 0.7           // 좌측 주기율표 영역
-            let rightWidth = totalWidth - leftWidth    // 우측 상세보기 영역
-            
-            HStack(spacing: 0) {
-                
+            HStack(spacing: 10) {
                 // MARK: - 주기율표 뷰 (왼쪽)
-                PeriodicTableView(
-                    selectedElement: $selectedElement,
-                    elementsGrid: elementsGrid,
-                    containerWidth: leftWidth,
-                    containerHeight: geometry.size.height
-                )
-                .frame(minWidth: leftWidth)
-
-                Divider() // 가운데 구분선
                 
-                // MARK: - 상세 정보 뷰 (오른쪽)
-                if let element = selectedElement {
-                    ElementDetailView(
-                        element: element,
-                        containerWidth: rightWidth,
-                        containerHeight: geometry.size.height
+                ZStack(alignment: .bottom) {
+                    PeriodicTableView(
+                        selectedAtom: $selectedAtom,
+                        elementsGrid: elementsGrid,
+                        width: width * 0.71,
+                        height: height
                     )
-                    .frame(minWidth: rightWidth)
-                } else {
+                    .frame(width: width * 0.71, height: height)
+                    .bg()
+                    .cornerRadius(55)
                     
-                    // MARK: - 기본 안내 뷰 (선택 전)
+                    ToolbarView(width: width, height: height)
+                        .offset(y: 30)
+//                        .frame(width: 300, height: 80)
+                    
+                }
+                
+                Spacer()
+                    .frame(width: width * 0.001)
+
+                // MARK: - 상세 정보 뷰 (오른쪽)
+//                Group {
+//                if let molecule = selectedMolecule {
+//                    elementDetail = .molecule(molecule)
+//                } else if let atom = selectedAtom {
+//                    elementDetail = .atom(atom)
+//                }
+//                if let detail = elementDetail {
+//                    ElementDetailView(
+//                        elementDetail: $elementDetail, // ✅ 바인딩 넘기는 부분
+//                        width: width * 0.28,
+//                        height: height
+//                    )
+//                } else {
+//                    Text("원소를 선택해주세요.")
+//                }
+//                    VStack {
+//                        Spacer()
+//                        Text("원소를 선택해주세요.")
+//                            .font(
+//                                Font.custom("SF Pro Display", size: width * 0.02)
+//                            .weight(.bold)
+//                            )
+//                            .multilineTextAlignment(.center)
+//                            .foregroundStyle(.white.opacity(0.2))
+//                            //.dynamicTypeSize(.xLarge)
+//                        Spacer()
+//                    }
+//                }
+                if let detail = elementDetail {
+                    ElementDetailView(
+                        elementDetail: $elementDetail,  // ← 바인딩 전달
+                        width: width * 0.28,
+                        height: height
+                    )
+                } else {
                     VStack {
                         Spacer()
                         Text("원소를 선택해주세요.")
-                        .font(
-                        Font.custom("SF Pro Display", size: 26)
-                        .weight(.bold)
-                        )
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.white.opacity(0.2))
-                        .frame(width: 288, alignment: .top)
+                            .font(
+                                Font.custom("SF Pro Display", size: width * 0.02)
+                                    .weight(.bold)
+                            )
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.white.opacity(0.2))
                         Spacer()
                     }
-                    .frame(minWidth: 400)
+                    .frame(width: width * 0.28, height: height)
+                    .bg()
+                    .cornerRadius(55)
+                }
+//                }
+//                .frame(width: width * 0.28, height: height)
+//                .bg()
+//                .cornerRadius(55)
+            }
+            .padding(.bottom, 40)
+            .onChange(of: selectedAtom) { 
+                if let atom = selectedAtom {
+                    elementDetail = .atom(atom)
+                    selectedMolecule = nil  // 분자 선택 초기화
+                }
+            }
+            .onChange(of: selectedMolecule) { newMolecule in
+                if let molecule = newMolecule {
+                    elementDetail = .molecule(molecule)
+                    selectedAtom = nil  // 원자 선택 초기화
                 }
             }
         }
+    }
+}
+
+struct RoundedCorners: Shape {
+    var radius: CGFloat = 30.0
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
+
+
+struct SplitViewWindowSizeKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
     }
 }
