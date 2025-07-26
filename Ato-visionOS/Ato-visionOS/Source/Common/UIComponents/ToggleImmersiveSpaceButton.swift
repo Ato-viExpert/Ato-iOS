@@ -40,8 +40,8 @@ struct ToggleImmersiveSpaceButton: View {
         )) {
             Text("가상 환경")
         }
-        .toggleStyle(.switch)  // 스위치 스타일로 변경
-        .tint(.blue)          // 토글이 ON일 때의 색상
+        .toggleStyle(.switch)
+        .tint(.blue)
         .disabled(appModel.immersiveSpaceState == .inTransition)
         .animation(.none, value: 0)
         .fontWeight(.semibold)

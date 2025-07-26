@@ -52,7 +52,7 @@ fileprivate struct ToolbarIconButton: View {
     var body: some View {
         Button {
             if tool.group == .selectable {
-                print("생성될 예정")
+                // TODO: - 툴바에서 진행될 함수
             } else {
                 //TODO: - 되돌아가기, 실행취소 실행
             }
