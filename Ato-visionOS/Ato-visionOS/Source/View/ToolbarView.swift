@@ -50,17 +50,12 @@ fileprivate struct ToolbarIconButton: View {
     let tool: ToolType
     
     var body: some View {
-        Button {
-            if tool.group == .selectable {
-                appModel.selectedTool = tool
-            } else {
-                //TODO: - 되돌아가기, 실행취소 실행
-            }
-        } label: {
-            //TODO: - 되돌아가기, 실행취소 할게 있을때 색상 변경
+        Button (action: handleButtonTap) {
             Image(tool.icon)
                 .resizable()
+                .renderingMode(.template)
                 .scaledToFit()
+                .foregroundStyle(iconColor)
         }
         .buttonStyle(.plain)
         .background((appModel.selectedTool == tool) ? .white.opacity(0.36) : .clear)
@@ -68,6 +63,38 @@ fileprivate struct ToolbarIconButton: View {
             Circle()
             
         )
+    }
+    
+    private func handleButtonTap() {
+        if tool.group == .selectable {
+            appModel.selectedTool = tool
+        } else {
+            guard let content = appModel.realityContent else { return }
+            
+            switch tool {
+            case .undo:
+                Task {
+                    _ = await appModel.commandManager.undo(in: content)
+                }
+            case .redo:
+                Task {
+                    _ = await appModel.commandManager.redo(in: content)
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    private var iconColor: Color {
+        switch tool {
+        case .undo:
+            return appModel.commandManager.canUndo ? .white.opacity(1.0) : .gray
+        case .redo:
+            return appModel.commandManager.canRedo ? .white : .gray
+        default:
+            return .white
+        }
     }
 }
 
