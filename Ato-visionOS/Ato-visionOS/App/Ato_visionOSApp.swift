@@ -17,16 +17,19 @@ struct Ato_visionOSApp: App {
         WindowGroup {
             ContentView()
                 .environment(appModel)
-                .task {
-                    await openImmersiveSpace(id: appModel.immersiveSpaceID)
-                }
         }
         .windowStyle(.plain)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
                 .environment(appModel)
+            .onAppear {
+                appModel.immersiveSpaceState = .open
+            }
+            .onDisappear {
+                appModel.immersiveSpaceState = .closed
+            }
         }
-        .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        .immersionStyle(selection: .constant(.full), in: .full)
     }
 }

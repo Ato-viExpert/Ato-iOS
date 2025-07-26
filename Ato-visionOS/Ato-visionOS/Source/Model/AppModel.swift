@@ -19,7 +19,4 @@ class AppModel {
         case open
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
-    var selectedTool: ToolType = .move
-    let commandManager = CommandManager()
-    var realityContent: RealityViewContent? = nil
 }

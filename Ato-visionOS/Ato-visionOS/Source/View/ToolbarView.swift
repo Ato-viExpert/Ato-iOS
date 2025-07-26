@@ -52,7 +52,7 @@ fileprivate struct ToolbarIconButton: View {
     var body: some View {
         Button {
             if tool.group == .selectable {
-                appModel.selectedTool = tool
+                print("생성될 예정")
             } else {
                 //TODO: - 되돌아가기, 실행취소 실행
             }
@@ -63,7 +63,7 @@ fileprivate struct ToolbarIconButton: View {
                 .scaledToFit()
         }
         .buttonStyle(.plain)
-        .background((appModel.selectedTool == tool) ? .white.opacity(0.36) : .clear)
+        .background()
         .clipShape(
             Circle()
             
