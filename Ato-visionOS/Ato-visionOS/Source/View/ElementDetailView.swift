@@ -8,68 +8,75 @@
 import SwiftUI
 
 // MARK: - ElementDetailView
-
-/// 선택된 원소의 이름, 이미지, 설명을 보여주는 상세 정보 뷰
-/// SplitPeriodicView의 오른쪽에 표시됨
-
 struct ElementDetailView: View {
     
-    // MARK: - Properties
-    let element: Element
+    @Binding var elementDetail: ElementDetail?
     
-    private let containerWidth: CGFloat
-    private let containerHeight: CGFloat
+    @State private var selectedMolecule: DetailMoleculeModel? = nil
     
-    // MARK: - Init
+    private let allDescriptions = DetailMoleculeMockData.allDescriptions
     
-    /// - Parameters:
-    ///   - element: 상세 정보를 표시할 원소
-    ///   - containerWidth: 뷰 너비
-    ///   - containerHeight: 뷰 높이
-    init(element: Element, containerWidth: CGFloat, containerHeight: CGFloat){
-        self.element = element
-        self.containerWidth = containerWidth
-        self.containerHeight = containerHeight
-    }
+    let width: CGFloat
+    let height: CGFloat
     
     // MARK: - Body
     var body: some View {
-        
-        // MARK: - 레이아웃 관련 계산값
-        let titleFontSize = max(min(containerWidth * 0.08, 48), 24)
-        let bodyFontSize = max(min(containerWidth * 0.045, 20), 14)
-        let verticalSpacing = containerWidth * 0.04
-        let sidePadding = containerWidth * 0.05
-        
-        VStack(alignment: .center, spacing: verticalSpacing) {
+        VStack(spacing: 30) {
             
-            // MARK: - 원소 이름
-            Text(element.name)
-                .font(
-                Font.custom("SF Pro Display", size: titleFontSize)
-                .weight(.bold)
-                )
-                .multilineTextAlignment(.leading)
-                .foregroundStyle(.white)
+            Picker("분자 선택", selection: $selectedMolecule) {
+                ForEach(DetailMoleculeMockData.allDescriptions, id: \.id) { molecule in
+                    Text(molecule.name).tag(Optional(molecule))
+                }
+            }
+            .onChange(of: selectedMolecule) {
+                if let molecule = selectedMolecule {
+                    elementDetail = .molecule(molecule)
+                }
+            }
+            
+//            .pickerStyle(.menu) // 또는 .wheel
+//            .padding(.bottom, 10)
             
             Divider()
             
-            // MARK: - 원소 이미지 + 설명 텍스트
-            Image("H") //element.imageName
-                .resizable()
-                .frame(width: containerWidth * 0.4 ,height: 250, alignment: .center)
-                .aspectRatio(contentMode: .fit)
-                .clipShape(.circle)
-                .padding(20)
+            // 상세 내용 표시
             
-            Text(element.description)
-                .font(Font.custom("SF Pro Display", size: bodyFontSize))
-                .foregroundStyle(.white)
-                .frame(width: 295.38199, alignment: .topLeading)
+//            Group {
+            switch elementDetail {
+            case .atom(let atom):
+                AtomDetailView(atom: atom, width: width, height: height)
+                
+            case .molecule(let molecule):
+                MoleculeDetailView(molecule: molecule, width: width, height: height)
+            case .none:
+                VStack {
+                    Spacer()
+                    
+                    Image(systemName: "questionmark.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: width * 0.1)
+                        .foregroundStyle(.white.opacity(0.3))
 
+                    Text("원소 또는 분자를 선택해주세요.")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white.opacity(0.4))
+                        .multilineTextAlignment(.center)
+                        .padding()
+
+                    Spacer()
+                }
+            }
+//            }
+//            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .padding(.horizontal, sidePadding)
-        .padding(.vertical, 47)
+        .padding()
+
     }
 }
 
+enum ElementDetail {
+    case atom(DetailAtomModel)
+    case molecule(DetailMoleculeModel)
+}

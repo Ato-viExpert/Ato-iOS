@@ -9,6 +9,11 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
+struct Bond{
+    let atomUUID: UUID /// 결합 상대 원자 고유 번호
+    let bondType: Int /// 몇 중 결합인지(1, 2, 3)
+}
+
 class LabAtom: Atom {
     // MARK: - Propteries
     

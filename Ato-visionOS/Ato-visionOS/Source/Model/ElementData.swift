@@ -226,9 +226,9 @@ let symbolGrid: [[String]] = [
 
 /// `symbolGrid`를 기반으로 실제 UI에서 사용할 수 있는 [[Element?]] 형태로 변환한 배열입니다.
 /// 빈 문자열은 nil로 변환되며, View에서 조건문으로 비어있는 칸을 처리할 수 있도록 설계되어 있습니다.
-let elementsGrid: [[Element?]] = symbolGrid.map { row in
-    row.map { symbol in
-        symbol.isEmpty ? nil : elementInfoDict[symbol]
-    }
-}
+//let elementsGrid: [[Element?]] = symbolGrid.map { row in
+//    row.map { symbol in
+//        symbol.isEmpty ? nil : elementInfoDict[symbol]
+//    }
+//}
 
