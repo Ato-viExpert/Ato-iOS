@@ -27,20 +27,6 @@ struct ImmersiveView: View {
                 appModel.realityContent = content
                 
             }
-        } update: { content in
-            for entity in content.entities {
-                if let atom = entity as? AtomEntity,
-                   atom.components[PhysicsBodyComponent.self] == nil {
-                    
-                    let physics = PhysicsBodyComponent(
-                        massProperties: .default,
-                        material: .default,
-                        mode: .kinematic
-                    )
-                    
-                    atom.components.set(physics)
-                }
-            }
         }
         .gesture(appModel.selectedTool == .move ? dragGesture : nil)
         .ignoresSafeArea()
