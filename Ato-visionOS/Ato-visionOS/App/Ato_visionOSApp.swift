@@ -35,6 +35,6 @@ struct Ato_visionOSApp: App {
             ImmersiveView()
                 .environment(appModel)
         }
-        .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        .immersionStyle(selection: .constant(.full), in: .full)
     }
 }
