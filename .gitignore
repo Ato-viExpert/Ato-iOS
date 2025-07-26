@@ -116,7 +116,8 @@ iOSInjectionProject/
 
 
 # Reality Composer Pro
+Ato-visionOS/Packages/RealityKitContent/Package.realitycomposerpro/WorkspaceData/
+Ato-visionOS/Packages/RealityKitContent/Package.realitycomposerpro/PluginData/
 *.rcuserdata
 *.rcprojectdata
-WorkspaceData/
 SceneMetadataList.json
